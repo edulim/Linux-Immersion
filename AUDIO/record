@@ -9,7 +9,7 @@
 # You may change the path or extension as you wish.
 # 'arecord' works with .wav only
 FORMAT='wav'
-OUTPUT="/tmp/tmpfs/record_$(date +%F_%T).$FORMAT"
+OUTPUT="/tmp/record_$(date +%F_%T).$FORMAT"
 
 # Your recording device.
 # Consult the appropriate one by using the command 'aplay -l'(ALSA) or
@@ -30,8 +30,7 @@ if [ $(pgrep $COMMAND) ];then
         exit 0
 else
         # Send a notification and start recording.
-        # It's possible to use 'ffmpeg' or 'arecord' to record. In case you
-        # enable ffmpeg, set  '-f alsa' or '-f pulse'.
+        # In case you enable ffmpeg, set  '-f alsa' or '-f pulse'.
         notify-send "Recording audio." &
         echo "Recording audio.\n"
         if [ $COMMAND = arecord ]; then
