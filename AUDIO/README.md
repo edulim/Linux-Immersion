@@ -23,7 +23,9 @@ your clipboard
 ## Installation
 
 If you're using just ALSA and no Pulseaudio or JACK, copy `.asoundrc` to your
-home directory.  ``` $ cp /path/to/AUDIO/.asoundrc ~/ ```
+home directory.  
+
+```$ cp /path/to/AUDIO/.asoundrc ~/```
 
 [Edit
 it](https://github.com/edulim/Linux-MIA/wiki/Audio-system-setup#setting-up-alsa),
@@ -31,10 +33,9 @@ replacing the capture and playback sound card with yours. The default card is
 `hw:0,0`.
 
 Copy the scripts `record` and `qolibri-play` to somewhere in your `$PATH`, e.g.
-`/usr/local/bin/`.  ``` $ cp /path/to/AUDIO/{record,qolibri-play}
-/usr/local/bin/
+`/usr/local/bin/`.  
 
-```
+```$ cp /path/to/AUDIO/{record,qolibri-play} /usr/local/bin/```
 
 Set `qolibri-play` as your external program for sound in qolibri. To do that, go
 to `Settings > Options > External program`.
