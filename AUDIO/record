@@ -8,7 +8,8 @@
 # The name of your file contains a timestamp.
 # You may change the path or extension as you wish.
 # 'arecord' works with .wav only
-OUTPUT="/tmp/tmpfs/record_$(date +%F_%T).wav"
+FORMAT='wav'
+OUTPUT="/tmp/tmpfs/record_$(date +%F_%T).$FORMAT"
 
 # Your recording device.
 # Consult the appropriate one by using the command 'aplay -l'(ALSA) or
@@ -18,7 +19,7 @@ RECORDING_DEVICE=looprec
 # Program used for recording; 'ffmpeg' or 'arecord'
 COMMAND=arecord
 if ! [ $COMMAND = arecord -o $COMMAND = ffmpeg ]; then
-    echo "Command Error\nChoose and appropriate command."
+    echo "Command Error\nChoose an appropriate command."
     exit 1
 fi
 
@@ -35,7 +36,7 @@ else
         echo "Recording audio.\n"
         if [ $COMMAND = arecord ]; then
             arecord -f cd -D "$RECORDING_DEVICE" "$OUTPUT"
-        elif [ $COMMAND = ffmpeg ]; then
+        else
             ffmpeg -f alsa -i "$RECORDING_DEVICE" "$OUTPUT"
         fi
 fi
@@ -44,9 +45,10 @@ fi
 if [ $(which sox) -a -f "$OUTPUT" ];then
     echo "Removing silence at both ends."
     DESTPATH=$(dirname "$OUTPUT")
-    mv $OUTPUT "$DESTPATH"/input.wav
-    sox $DESTPATH/input.wav $OUTPUT silence 1 0.1 0.1% reverse silence 1 0.1 0.1% reverse
-    rm "$DESTPATH"/input.wav
+    TEMP_INPUT="$DESTPATH"/input."$FORMAT"
+    mv "$OUTPUT" "$TEMP_INPUT"
+    sox "$TEMP_INPUT" "$OUTPUT" silence 1 0.1 0.1% reverse silence 1 0.1 0.1% reverse
+    rm "$TEMP_INPUT"
 fi
 
 # Send the audio file's path to your clipboard, so that you can paste with
