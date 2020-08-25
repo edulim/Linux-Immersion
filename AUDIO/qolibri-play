@@ -10,4 +10,4 @@ path=/tmp/tmpfs/$(basename "$1")
 
 ln "$1" "$path" || ln -s "$1" "$path"
 echo "file://$path" | xclip -i -sel c -t "text/uri-list"
-mpv "$path"
+xdg-open "$path"

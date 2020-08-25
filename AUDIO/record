@@ -2,12 +2,13 @@
 
 ### This script records audio played by you computer as saves it in the current
 ### directory. It is designed to work with Anki and any window manager. 
-### Need xclip and alsa/pulseaudio installed.
-### Optionally, you man use ffmpeg, sox and a notification-daemon
+### Need xclip installed.
+### Optionally, you may use ffmpeg, sox and a notification-daemon.
 
 # The name of your file contains a timestamp.
-# You may change the extension as you wish.
-OUTPUT="record_$(date +%F_%T).wav"
+# You may change the path or extension as you wish.
+# 'arecord' works with .wav only
+OUTPUT="/tmp/tmpfs/record_$(date +%F_%T).wav"
 
 # Your recording device.
 # Consult the appropriate one by using the command 'aplay -l'(ALSA) or
@@ -16,9 +17,14 @@ RECORDING_DEVICE=looprec
 
 # Program used for recording; 'ffmpeg' or 'arecord'
 COMMAND=arecord
+if ! [ $COMMAND = arecord -o $COMMAND = ffmpeg ]; then
+    echo "Command Error\nChoose and appropriate command."
+    exit 1
+fi
 
 # If it's already recording, finish recording.
 if [ $(pgrep $COMMAND) ];then
+        echo "Stopping recording audio."
         pkill $COMMAND
         exit 0
 else
@@ -26,21 +32,25 @@ else
         # It's possible to use 'ffmpeg' or 'arecord' to record. In case you
         # enable ffmpeg, set  '-f alsa' or '-f pulse'.
         notify-send "Recording audio." &
-        if [ $COMMAND=arecord ]; then
+        echo "Recording audio.\n"
+        if [ $COMMAND = arecord ]; then
             arecord -f cd -D "$RECORDING_DEVICE" "$OUTPUT"
-        else
+        elif [ $COMMAND = ffmpeg ]; then
             ffmpeg -f alsa -i "$RECORDING_DEVICE" "$OUTPUT"
         fi
 fi
 
 # Check if SOX is installed and remove silence at the beginning and end.
-if [ $(which sox) ];then
-    mv $PWD/$OUTPUT $PWD/input.wav
-    sox $PWD/input.wav $PWD/$OUTPUT silence 1 0.1 0.1% reverse silence 1 0.1 0.1% reverse
-    rm $PWD/input.wav
+if [ $(which sox) -a -f "$OUTPUT" ];then
+    echo "Removing silence at both ends."
+    DESTPATH=$(dirname "$OUTPUT")
+    mv $OUTPUT "$DESTPATH"/input.wav
+    sox $DESTPATH/input.wav $OUTPUT silence 1 0.1 0.1% reverse silence 1 0.1 0.1% reverse
+    rm "$DESTPATH"/input.wav
 fi
 
 # Send the audio file's path to your clipboard, so that you can paste with
 # Ctrl+v in Anki.
-echo "file://$PWD/$OUTPUT" | xclip -i -selection clipboard -t "text/uri-list"
-notify-send "Copied $PWD/$OUTPUT to the clipboard."
+echo "file://$OUTPUT" | xclip -i -selection clipboard -t "text/uri-list"
+echo "Copied $OUTPUT to the clipboard."
+notify-send "Copied $OUTPUT to the clipboard."
