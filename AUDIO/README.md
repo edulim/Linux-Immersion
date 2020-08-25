@@ -1,6 +1,6 @@
 # Description
 
-Files for recording audio with ALSA and pasting the result into Anki.
+Tools for recording audio and pasting the result into Anki.
 
 - `.asoundrc` is ALSA's user configuration file
 - `record` is a script to start/stop recording playback audio, saving it as `.wav` and copying it to the clipboard
@@ -47,7 +47,7 @@ Just play audio normally by clicking on a hyperlink and the audio file will be c
 
 # Caveats
 
-1. If you're not using pure ALSA, using the file `.asoundrc` may not work. You can always try playing with it, and delete it in case it breaks your current setup. Read the wiki to understand why that file may be necessary depending on you system and how to setup the required kernel module.
+1. If you're not using pure ALSA, using the file `.asoundrc` may not work. You can always try playing with it, and delete it in case it breaks your current setup. Read the [wiki](https://github.com/edulim/Linux-MIA/wiki/Audio-system-setup) to understand why that file may be necessary depending on you system and how to setup the required kernel module.
 
 2. `record` uses the PCM device called `looprec`, which is an output loopback device defined in `.asoundrc`. If you aren't using that config file, you may need to change the device used for recording loopback, depending on you custom configuration.
 
