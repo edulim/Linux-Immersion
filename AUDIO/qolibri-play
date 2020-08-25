@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# This script is used to play qolibri's audio and copy the file to clipboard.
+# set 'qolibri-play' in Qolibri: Settings > Options > External Program
+# You'll be able to play the audio in qolibri and paste the audio in Anki.
+
+# You may choose any directory instead of '/tmp/tmpfs'
+# Just make sure there are no whitespace or special characters in the path
+path=/tmp/tmpfs/$(basename "$1")
+
+ln "$1" "$path" || ln -s "$1" "$path"
+echo "file://$path" | xclip -i -sel c -t "text/uri-list"
+mpv "$path"
