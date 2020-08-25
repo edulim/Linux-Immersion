@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Take a screenshot and use tesseract to infer japanese text.
+
+help_msg(){
+        echo "\t-H looks up for horizontal text"
+}
+
+# Defaults to vertical text.
+lang=jpn_vert
+
+while getopts "hH" OPTION; do
+    case $OPTION in
+        H)  lang=jpn;; # horizontal text
+        h|*) help_msg && exit 0;;
+    esac
+done
+
+import -monochrome png:- | \
+tesseract -l $lang stdin stdout | \
+paste -s | tr -d [:blank:] | xclip -i -sel c

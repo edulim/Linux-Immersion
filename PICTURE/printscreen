@@ -1,0 +1,29 @@
+#! /bin/sh
+
+# Take a screenshot of a selected area, whole screen or currently focused window
+
+# Customize the file and directory
+OUTPUT="$(date +%Y-%m-%d_%H:%M:%S).png"
+DIRECTORY=~/screenshots
+
+help_msg () {
+    echo "Take a screenshot and copy its path to the clipboard."
+    echo "Usage: printscreen [-r] [-f] [-h]"
+    echo "Supports only one optional argument."
+    echo "If called with no options, takes a screenshot of a selected area"
+    echo "\t-r take a screenshot of the root window (whole screen)"
+    echo "\t-f take a screenshot of the currently focused window"
+    echo "\t-h show this message"
+}
+
+while getopts "rfh" MODE; do
+        case $MODE in
+           r) window='-window root';;
+           f) window="-window $(xdotool getactivewindow)";;
+           h|*) help_msg && exit 0;;
+        esac
+done
+
+eval "import $window $DIRECTORY/$OUTPUT"
+echo "file://$DIRECTORY/$OUTPUT" | xclip -i -selection clipboard -t "text/uri-list"
+notify "Screenshot $OUTPUT" "Copied to the clipboard."
