@@ -3,10 +3,15 @@
 # Take a screenshot and use tesseract to infer japanese text.
 
 help_msg(){
-        echo "\t-H looks up for horizontal text"
+        echo "\tTake a screenshot from a text and have its content copied to \
+        the clipboard."
+        echo "\t-H looks up for horizontal text (jpn)."
+        echo "\t-h show this message."
 }
 
-# Defaults to vertical text.
+# You may choose your language here. Use 'tesseract --list-langs'.
+# YOu might need to install other languages's scripts.
+# Defaults to japanese vertical text.
 lang=jpn_vert
 
 while getopts "hH" OPTION; do

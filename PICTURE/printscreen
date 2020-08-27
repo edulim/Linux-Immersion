@@ -3,8 +3,7 @@
 # Take a screenshot of a selected area, whole screen or currently focused window
 
 # Customize the file and directory
-OUTPUT="$(date +%Y-%m-%d_%H:%M:%S).png"
-DIRECTORY=~/screenshots
+OUTPUT="/tmp/$(date +%Y-%m-%d_%H:%M:%S).png"
 
 help_msg () {
     echo "Take a screenshot and copy its path to the clipboard."
@@ -24,6 +23,6 @@ while getopts "rfh" MODE; do
         esac
 done
 
-eval "import $window $DIRECTORY/$OUTPUT"
-echo "file://$DIRECTORY/$OUTPUT" | xclip -i -selection clipboard -t "text/uri-list"
+eval "import $window $OUTPUT"
+echo "file://$OUTPUT" | xclip -i -selection clipboard -t "text/uri-list"
 notify "Screenshot $OUTPUT" "Copied to the clipboard."

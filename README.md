@@ -1,4 +1,4 @@
-# Linux-MIA
+# Linux MIA
 Resources for Linux users who follow the Mass Immersion Approach.
 
 This repository provides files and instructions to replicate [a typical workflow
@@ -12,11 +12,11 @@ he/she sees fit.
 
 The folder structure is the following:
 
-    * AUDIO - how to record playback audio and export to Anki
-        *  .asoundrc - config file for ALSA
-        *  qolibri-play - script for grabbing audio from qolibri
-        *  record - script for recording playback audio
-    * PICTURE - how to quickly take screenshots and export them to Anki
+* AUDIO - how to record playback audio and export to Anki
+    *  .asoundrc - config file for ALSA
+    *  qolibri-play - script for grabbing audio from qolibri
+    *  record - script for recording playback audio
+* PICTURE - how to quickly take screenshots and export them to Anki
 
 I encourage you to read the [wiki](https://github.com/edulim/Linux-MIA/wiki) 
 prepared with basic information necessary to use the files provided in this
