@@ -7,8 +7,7 @@ system.
 
 Using simple command line tool like `xclip`, `imagemagick`, `arecord` and
 `ffmpeg`, it's possible to make scripts with dependencies that most users
-should naturally fulfill. Each user is free to use and modify the scripts as
-he/she sees fit.
+should naturally fulfill. Each user is free to use and modify the scripts.
 
 The folder structure is the following:
 

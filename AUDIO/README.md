@@ -13,12 +13,15 @@ your clipboard
 ## Dependencies
 
 - `xclip`
-- for `qolibri-play`
-  - A media player.
-- for `record`
-  - `ffmpeg` (optional; gives access to more file formats besides .wav)
-  - `sox` (optional; used to remove silence from recorded audio)
-  - A notification-daemon (optional). 
+
+for `qolibri-play`:
+
+- A media player.
+
+for `record`:
+- `ffmpeg` (optional; gives access to more file formats besides .wav)
+- `sox` (optional; used to remove silence from recorded audio)
+- A notification daemon (optional). 
 
 ## Installation
 
@@ -31,6 +34,10 @@ home directory.
 it](https://github.com/edulim/Linux-MIA/wiki/Audio-system-setup#setting-up-alsa),
 replacing the capture and playback sound card with yours. The default card is
 `hw:0,0`.
+
+Change persmissions.
+
+```$ chmod 755 /path/to/AUDIO/{record,qolibri-play}```
 
 Copy the scripts `record` and `qolibri-play` to somewhere in your `$PATH`, e.g.
 `/usr/local/bin/`.  
