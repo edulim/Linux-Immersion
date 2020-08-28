@@ -14,8 +14,8 @@ your clipboard
 
 - `xclip`
 
-for `qolibri-play`:
-
+for `qolibri-play` and `qolibri-mp3`:
+- `ffmpeg` (only for `qolibri-mp3`)
 - A media player.
 
 for `record`:
@@ -35,25 +35,30 @@ it](https://github.com/edulim/Linux-MIA/wiki/Audio-system-setup#setting-up-alsa)
 replacing the capture and playback sound card with yours. The default card is
 `hw:0,0`.
 
-Change persmissions.
+Change permissions.
 
-```$ chmod 755 /path/to/AUDIO/{record,qolibri-play}```
+```$ chmod 755 /path/to/AUDIO/{record,qolibri-play,qolibri-mp3}```
 
 Copy the scripts `record` and `qolibri-play` to somewhere in your `$PATH`, e.g.
 `/usr/local/bin/`.  
 
-```$ cp /path/to/AUDIO/{record,qolibri-play} /usr/local/bin/```
+```$ cp /path/to/AUDIO/{record,qolibri-play,qolibri-mp3} /usr/local/bin/```
 
-Set `qolibri-play` as your external program for sound in qolibri. To do that, go
+Set `qolibri-play` or `qolibri-mp3` as your external program for sound in qolibri. To do that, go
 to `Settings > Options > External program`.
 
 ## Usage
 
-### qolibri-play
+### qolibri-play and qolibri-mp3
 
 Just play audio normally by clicking on a hyperlink and the audio file will be
 copied to your clipboard. Paste with `Ctrl+C` within the Anki editor window or
 `Ctrl + Shift + v` with the MIA Dictionary addon.
+
+`qolibri-play` copies the raw file from qolibri, which is `.wav` file, but that
+isn't supported by the current MIA Dictionary addon Card Exporter. You may still
+use the regular Anki editor window, though. Use `qolibri-mp3` if you want to
+export to the addon window.
 
 ### record
 
@@ -77,7 +82,7 @@ understand why that file may be necessary depending on you system and how to
 setup the required kernel module.
 
 2. `record` uses the PCM device called `looprec`, which is an output loopback
-device defined in `.asoundrc`. If you aren't using that config file, you may
+device defined in `~/.asoundrc`. If you aren't using that config file, you may
 need to change the device used for recording loopback, depending on you custom
 configuration.
 
@@ -86,3 +91,14 @@ order to use the new configuration file.
 
 4. Unfortunately, the clipboard pasting feature has limited use to Anki and
 other programs that work similarly.
+
+5. The MIA Dictionary addon currently only supports 'mp3' files, but I've opened
+   a pull request to add support for more containers. By default, the scripts
+generate `.wav` files, so there are 3 possibilities to workaround.
+
+-  Patch your custom addon using [my fork](https://github.com/edulim/MIA-Dictionary-Addon).
+-  Use `record` with `ffmpeg` and set the file to `.mp3` in the script.
+`qolibri-mp3` converts the standard `.wav` file to `.mp3` and copies it to the
+clipboard
+-  Don't use the Card Exporter feature and paste the clipboard's contents
+directly to Anki's card editor window.

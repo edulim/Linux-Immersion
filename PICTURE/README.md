@@ -4,9 +4,12 @@
 
 - `xclip`
 - `imagemagick`
+- a notification daemon (optional)
+
+for `ocrshot`:
+
 - `tesseract-ocr`, `tesseract-ocr-jpn` and `tesseract-ocr-jpn-vert` or any
 other language pack for tesseract
-- a notification daemon (optional)
 
 ## Installation
 
@@ -22,8 +25,8 @@ Change permissions.
 
 ### printscreen
 
-- `prinscreen` takes a screenshot of a custom selected area with your mouse
-- `prinscreen -f` takes a screenshot of the currently focused window 
+- `printscreen` takes a screenshot of a custom selected area with your mouse
+- `printscreen -f` takes a screenshot of the currently focused window 
 - `printscreen -r` takes a screenshot of the root window
 
 By default the file is saved to your `/tmp` folder, but you may change the
@@ -38,6 +41,7 @@ Also, if you have a notification daemon running, you should get a popup message.
 Use the command without options to select an area on you screen and parse the
 text with `tesseract`, an OCR engine. The default language is japanese vertical,
 and you can call it with the `-H` option to read horizontal texts in japanese.
+You should also get a notification saying whether text was detected or not.
 
 If you want to use another language, make sure to install the appropriate
 language support.

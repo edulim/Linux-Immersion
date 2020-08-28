@@ -6,8 +6,8 @@
 
 # You may choose any directory instead of '/tmp'
 # Just make sure there are no whitespace or special characters in the path
-path=/tmp/$(basename "$1")
 
-ln "$1" "$path" || ln -s "$1" "$path"
-echo "file://$path" | xclip -i -sel c -t "text/uri-list"
-xdg-open "$path"
+filepath=/tmp/$(basename "$1")
+ln "$1" "$filepath" || ln -s "$1" "$filepath"
+echo "file://$filepath" | xclip -i -sel c -t "text/uri-list"
+xdg-open "$filepath"

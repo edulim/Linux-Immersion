@@ -21,6 +21,11 @@ while getopts "hH" OPTION; do
     esac
 done
 
-import -monochrome png:- | \
+import png:- | \
 tesseract -l $lang stdin stdout | \
-paste -s | tr -d [:blank:] | xclip -i -sel c
+tr -d [:space:] | xclip -i -sel c
+if [ "$(xclip -o -sel c)" ];then
+    notify-send "Copied OCR text to the clipboard."
+else
+    notify-send "No text detected."
+fi
