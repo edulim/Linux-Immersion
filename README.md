@@ -23,3 +23,9 @@ The folder structure is the following:
 I encourage you to read the [wiki](https://github.com/edulim/Linux-MIA/wiki) 
 prepared with basic information necessary to use the files provided in this
 repo.
+
+The wiki includes the following articles:
+
+* [Audio system setup](https://github.com/edulim/Linux-MIA/wiki/Audio-system-setup)
+* [Setting custom
+  keybindings](https://github.com/edulim/Linux-MIA/wiki/Setting-custom-keybindings)

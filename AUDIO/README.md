@@ -68,6 +68,11 @@ may type `q` to stop recording instead of running the script a second time.
 Paste with `Ctrl+C` within the Anki editor window or `Ctrl + Shift + v` with the
 MIA Dictionary addon.
 
+`record` will automatically stop recording after a few seconds defined by the
+variable `MAX_RECORD_TIME`, in order to prevent very long files that might be
+recorded by accident and without noticing. It's set to record up to 600 seconds
+(10 minutes) by default.
+
 It's recommended to add a custom keybinding pointing to the script. Use your
 window manager, desktop environment or a hotkey daemon, e.g.
 [sxhkd](https://github.com/baskerville/sxhkd), for that.

@@ -10,6 +10,10 @@
 # 'arecord' works with .wav only
 FORMAT='wav'
 OUTPUT="/tmp/record_$(date +%F_%T).$FORMAT"
+PID_FILE='/tmp/recordPID'
+# Elapsed seconds to automatically stop recording.
+MAX_RECORD_TIME=600
+CURRENT_RECORD_TIME=0
 
 # Your recording device.
 # Consult the appropriate one by using the command 'aplay -l'(ALSA) or
@@ -24,9 +28,9 @@ if ! [ $COMMAND = arecord -o $COMMAND = ffmpeg ]; then
 fi
 
 # If it's already recording, finish recording.
-if [ $(pgrep $COMMAND) ];then
+if [ -f $PID_FILE ];then
         echo "Stopping recording audio."
-        pkill $COMMAND
+        kill $(cat $PID_FILE) && rm $PID_FILE
         exit 0
 else
         # Send a notification and start recording.
@@ -34,10 +38,27 @@ else
         notify-send "Recording audio." &
         echo "Recording audio.\n"
         if [ $COMMAND = arecord ]; then
-            arecord -f cd -D "$RECORDING_DEVICE" "$OUTPUT"
+            arecord -f cd -D "$RECORDING_DEVICE" "$OUTPUT" &
+            echo "$!" > $PID_FILE
         else
-            ffmpeg -f alsa -i "$RECORDING_DEVICE" "$OUTPUT"
+            ffmpeg -f alsa -i "$RECORDING_DEVICE" "$OUTPUT" &
+            echo "$!" > $PID_FILE
         fi
+fi
+
+while [ -f $PID_FILE -a $MAX_RECORD_TIME -gt $CURRENT_RECORD_TIME ];do
+        CURRENT_RECORD_TIME=$(ps -o etimes= -p $(cat $PID_FILE) \
+                | tr -dc [:digit:])
+        sleep 1
+done
+
+if [ -f $PID_FILE ]; then
+        echo "$MAX_RECORD_TIME seconds have elapsed since the start of the\
+        recording. Finishing the recording process."
+
+        notify-send "$MAX_RECORD_TIME seconds have elapsed since the start of the recording." "Finishing the recording process." &
+
+        kill $(cat $PID_FILE) && rm $PID_FILE
 fi
 
 # Check if SOX is installed and remove silence at the beginning and end.
@@ -54,4 +75,5 @@ fi
 # Ctrl+v in Anki.
 echo "file://$OUTPUT" | xclip -i -selection clipboard -t "text/uri-list"
 echo "Copied $OUTPUT to the clipboard."
-notify-send "Copied $OUTPUT to the clipboard."
+notify-send "Copied $OUTPUT to the clipboard." &
+exit 0
