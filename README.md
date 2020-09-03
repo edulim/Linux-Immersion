@@ -29,3 +29,4 @@ The wiki includes the following articles:
 * [Audio system setup](https://github.com/edulim/Linux-MIA/wiki/Audio-system-setup)
 * [Setting custom
   keybindings](https://github.com/edulim/Linux-MIA/wiki/Setting-custom-keybindings)
+* [Copy subtitles with mpv](https://github.com/edulim/Linux-MIA/wiki/Copy-subtitles-with-mpv)
