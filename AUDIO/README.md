@@ -9,6 +9,7 @@ seamless workflow for card creation.
 - `qolibry-play` is a script used to grab audio played within
   [qolibri](https://github.com/ludios/qolibri) that automatically copies it to
 your clipboard
+- `qolibri-mp3` copies the file as `.mp3`
 
 ## Dependencies
 
@@ -94,10 +95,17 @@ configuration.
 3. After setting up, you may need to close and reopen your running programs in
 order to use the new configuration file.
 
+4. If the recorded audio volume is too low, you may apply a filter to the output
+ audio. An example using ffmpeg would be:
+
+```
+ffmpeg -f alsa -i "$RECORDING_DEVICE" -filter:a "volume=3.0" "$OUTPUT"
+```
+
 4. Unfortunately, the clipboard pasting feature has limited use to Anki and
 other programs that work similarly.
 
-5. The MIA Dictionary addon currently only supports 'mp3' files, but I've opened
+6. The MIA Dictionary addon currently only supports 'mp3' files, but I've opened
    a pull request to add support for more containers. By default, the scripts
 generate `.wav` files, so there are 3 possibilities to workaround.
 
