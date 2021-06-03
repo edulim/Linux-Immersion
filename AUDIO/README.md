@@ -63,10 +63,10 @@ export to the addon window.
 ### record
 
 The script should detect whether you're running Pulseaudio and use the
-appropriate command for recording, i.e. `parec´ for Pulseaudio and `arecord` for
+appropriate command for recording, i.e. `parec` for Pulseaudio and `arecord` for
 alsa. Also, the first lines of the script contain variables that can be manually
-changed by the user, such as ´FORMAT´ (wav, flac, ogg, etc), `OUTPUT´,
-´ALSA_RECORDING_DEVICE´ and `PULSEAUDIO_RECORDING_DEVICE`.
+changed by the user, such as `FORMAT` (wav, flac, ogg, etc), `OUTPUT`,
+`ALSA_RECORDING_DEVICE` and `PULSEAUDIO_RECORDING_DEVICE`.
 
 `ALSA_RECORDING_DEVICE` is already set to the value `looprec`, which is in
 accordance with the `.asoundrc` file provided in this repository. However,
@@ -76,7 +76,7 @@ of
 ```$ pactl list short sources```.
 
 That should look like:
-´´´
+```
 0	alsa_output.pci-0000_01_00.1.hdmi-stereo.monitor	module-alsa-card.c	s16le 2ch 44100Hz	SUSPENDED
 1	alsa_output.pci-0000_00_14.2.analog-stereo.monitor	module-alsa-card.c	s16le 2ch 44100Hz	SUSPENDED
 2	alsa_input.pci-0000_00_14.2.analog-stereo	module-alsa-card.c	s16le 2ch 44100Hz	SUSPENDED
