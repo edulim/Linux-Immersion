@@ -1,9 +1,12 @@
-# Linux, Immersion and Language Acquisition
-Resources for Linux users who are acquiring languages by immersion.
+# UNIX, Immersion and Language Acquisition
+Resources for UNIX-like system users who are acquiring languages by immersion.
+Examples shown use japanese as the target language.
 
 This repository provides files and instructions to replicate [a typical workflow
-when mining cards](https://www.youtube.com/watch?v=CfvDKgNUSi8) in a Linux
-system.
+when mining cards](https://www.youtube.com/watch?v=CfvDKgNUSi8) in a UNIX-like
+(GNU/Linux, BSDs, MacOS) system. In a Windows system the workflow for creating
+flashcards depends on ShareX, which is free software but isn't available for
+other platforms
 
 Using simple command line tools like `xclip`, `imagemagick`, `arecord` and
 `ffmpeg`, it's possible to make scripts with dependencies that most users
@@ -20,16 +23,16 @@ The folder structure is the following:
     *  printscreen - script that takes a screenshot
     *  ocrshot - script that generates text in a target language from image
 
-Most scripts are expected to run on X11, and ,for the time being, Wayland
+Most scripts are expected to run on X11, and, for the time being, Wayland
 users needs to adapt them by changing a few commands.
 
-I encourage you to read the [wiki](https://github.com/edulim/Linux-MIA/wiki) 
+I encourage you to read the [wiki](https://github.com/edulim/Linux-Immersion/wiki) 
 prepared with basic information necessary to use the files provided in this
 repo.
 
 The wiki includes the following articles:
 
-* [Audio system setup](https://github.com/edulim/Linux-MIA/wiki/Audio-system-setup)
+* [Audio system setup](https://github.com/edulim/Linux-Immersion/wiki/Audio-system-setup)
 * [Setting custom
-  keybindings](https://github.com/edulim/Linux-MIA/wiki/Setting-custom-keybindings)
-* [Copy subtitles with mpv](https://github.com/edulim/Linux-MIA/wiki/Copy-subtitles-with-mpv)
+  keybindings](https://github.com/edulim/Linux-Immersion/wiki/Setting-custom-keybindings)
+* [Copy subtitles with mpv](https://github.com/edulim/Linux-Immersion/wiki/Copy-subtitles-with-mpv)

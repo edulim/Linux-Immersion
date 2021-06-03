@@ -1,9 +1,10 @@
 #!/bin/sh
 
-### This script records audio played by you computer as saves it in the current
-### directory. It is designed to work with Anki and any window manager. 
-### Need xclip installed.
-### Optionally, you may use ffmpeg, sox and a notification-daemon.
+# This script records audio played by you computer as saves it in a folder
+# specified by the OUTPUT variable.
+# It is designed to work with Anki and any window manager. 
+# Dependencies: xclip, arecord (ALSA), parec(Pulseaudio)
+# Optionally, you may use ffmpeg, sox and a notification-daemon.
 
 # The name of your file contains a timestamp.
 # You may change the path or extension as you wish.
@@ -17,15 +18,44 @@ CURRENT_RECORD_TIME=0
 
 # Your recording device.
 # Consult the appropriate one by using the command 'aplay -l'(ALSA) or
-# 'pavucontrol' (Pulseaudio), or the file '$HOME/.asoundrc' (ALSA)
-RECORDING_DEVICE=looprec
+# the file '$HOME/.asoundrc' (ALSA)
+ALSA_RECORDING_DEVICE=looprec
 
-# Program used for recording; 'ffmpeg' or 'arecord'
-COMMAND=arecord
-if ! [ $COMMAND = arecord -o $COMMAND = ffmpeg ]; then
-    echo "Command Error\nChoose an appropriate command."
-    exit 1
-fi
+# Get sources list by running 'pactl list short sources' and choose the 'output'
+# one in order to record playback audio
+PULSEAUDIO_RECORDING_DEVICE=alsa_output.pci-0000_00_14.2.analog-stereo.monitor
+# May alse be written as the index number shown
+#PULSEAUDIO_RECORDING_DEVICE=1
+
+recordWithALSA () {
+        if [ $FORMAT = 'wav' ]; then
+            arecord -f cd -D "$ALSA_RECORDING_DEVICE" "$OUTPUT" &
+            echo "$!" > $PID_FILE
+        else
+            ffmpeg -f alsa -i "$ALSA_RECORDING_DEVICE" "$OUTPUT" &
+            echo "$!" > $PID_FILE
+        fi
+}
+
+recordWithPulseaudio () {
+        if isSupportedByPulseaudio $FORMAT ; then
+            parec --file-format=$FORMAT -d "$PULSEAUDIO_RECORDING_DEVICE" "$OUTPUT" &
+            echo "$!" > $PID_FILE
+        else
+            ffmpeg -f pulse -i "$PULSEAUDIO_RECORDING_DEVICE" "$OUTPUT" &
+            echo "$!" > $PID_FILE
+        fi
+}
+
+isSupportedByPulseaudio () {
+        if [ $(parec --list-file-formats | cut -f1 | grep -co "$@" ) -gt 0 ]
+        then return 0
+        else return 1
+        fi
+}
+
+# Program used for recording; 'ffmpeg' (works for both Alsa and Pulseaudio) or 
+# 'arecord' (ALSA) or 'parec' (Pulseaudio)
 
 # If it's already recording, finish recording.
 if [ -f $PID_FILE ];then
@@ -33,17 +63,9 @@ if [ -f $PID_FILE ];then
         kill $(cat $PID_FILE) && rm $PID_FILE
         exit 0
 else
-        # Send a notification and start recording.
-        # In case you enable ffmpeg, set  '-f alsa' or '-f pulse'.
         notify-send "Recording audio." &
         echo "Recording audio.\n"
-        if [ $COMMAND = arecord ]; then
-            arecord -f cd -D "$RECORDING_DEVICE" "$OUTPUT" &
-            echo "$!" > $PID_FILE
-        else
-            ffmpeg -f alsa -i "$RECORDING_DEVICE" "$OUTPUT" &
-            echo "$!" > $PID_FILE
-        fi
+        pulseaudio --check && recordWithPulseaudio || recordWithALSA
 fi
 
 while [ -f $PID_FILE -a $MAX_RECORD_TIME -gt $CURRENT_RECORD_TIME ];do
