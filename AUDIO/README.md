@@ -16,12 +16,12 @@ your clipboard
 - `xclip`
 
 for `qolibri-play` and `qolibri-mp3`:
-- `ffmpeg` (only for `qolibri-mp3`)
+- `ffmpeg` (only for `qolibri-mp3`);
 - A media player.
 
 for `record`:
-- `ffmpeg` (optional; gives access to more file formats besides .wav)
-- `sox` (optional; used to remove silence from recorded audio)
+- `ffmpeg` (optional; gives access to more file formats besides .wav);
+- `sox` and a format library like `libsox-fmt-base` or `libsox-fmt-all` (optional; used to remove silence from recorded audio);
 - A notification daemon (optional). 
 
 ## Installation
